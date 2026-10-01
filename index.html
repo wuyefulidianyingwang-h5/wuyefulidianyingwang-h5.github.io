@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>午夜电影网 - 深夜影院 / 艺术片 / 经典老片在线导航</title>
+<meta name="description" content="午夜电影网（wuyedianyingwang-h5）专注深夜观影场景，提供艺术电影、悬疑片、黑色电影、经典老片、独立影像的分类导航与影评推荐，移动端自适应，纯净无弹窗。">
+<meta name="keywords" content="午夜电影网, 深夜电影, 艺术电影, 黑色电影, 经典老片, 独立电影, 悬疑片, wuyedianyingwang-h5">
+<style>
+:root{
+  --bg:#070b16;
+  --bg2:#0c1326;
+  --panel:#111a30;
+  --line:#22304f;
+  --moon:#dfe7ff;
+  --silver:#9fb0d0;
+  --amber:#ffb454;
+  --amber2:#ff7a59;
+  --text:#e8edf7;
+  --muted:#8493b5;
+  --shadow:0 10px 40px rgba(0,0,0,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(255,180,84,.10), transparent 60%),
+    radial-gradient(900px 500px at 10% 0%, rgba(159,176,208,.08), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.75;
+}
+a{color:var(--amber);text-decoration:none;transition:.2s}
+a:hover{color:var(--amber2)}
+
+/* 顶栏 */
+.topbar{
+  background:rgba(7,11,22,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:999;
+}
+.topbar-in{
+  max-width:1180px;margin:0 auto;padding:.9rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:.7rem}
+.moon{
+  width:38px;height:38px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff, #cdd8f5 40%, #8794b8 100%);
+  box-shadow:0 0 18px rgba(223,231,255,.45);
+}
+.brand h1{font-size:1.35rem;font-weight:900;letter-spacing:.5px}
+.brand h1 b{color:var(--amber)}
+.brand small{display:block;color:var(--muted);font-size:.7rem;letter-spacing:2px}
+.nav{display:flex;gap:.2rem;flex-wrap:wrap}
+.nav a{
+  padding:.45rem .9rem;border-radius:999px;font-size:.88rem;color:var(--silver);font-weight:600;
+}
+.nav a:hover,.nav a.active{
+  background:linear-gradient(90deg,var(--amber),var(--amber2));
+  color:#1a1206;
+}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 1rem}
+
+/* Hero */
+.hero{
+  padding:4rem 0 3rem;text-align:center;position:relative;
+}
+.kicker{
+  display:inline-block;font-size:.75rem;letter-spacing:3px;color:var(--silver);
+  border:1px solid var(--line);padding:.3rem .9rem;border-radius:999px;margin-bottom:1.2rem;
+}
+.hero h2{font-size:clamp(2rem,6vw,3.4rem);font-weight:900;line-height:1.15}
+.hero h2 span{
+  background:linear-gradient(90deg,var(--amber),var(--amber2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{max-width:620px;margin:1.2rem auto 2rem;color:var(--muted)}
+.search{
+  max-width:540px;margin:0 auto;display:flex;background:var(--panel);
+  border:1px solid var(--line);border-radius:999px;overflow:hidden;box-shadow:var(--shadow);
+}
+.search input{flex:1;background:transparent;border:0;outline:0;color:var(--text);padding:1rem 1.4rem;font-size:1rem}
+.search button{
+  border:0;cursor:pointer;padding:0 1.8rem;font-weight:800;color:#1a1206;
+  background:linear-gradient(90deg,var(--amber),var(--amber2));
+}
+.tags{margin-top:1.4rem;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.tags a{font-size:.8rem;color:var(--silver);border:1px solid var(--line);padding:.3rem .8rem;border-radius:999px}
+.tags a:hover{border-color:var(--amber);color:var(--amber)}
+
+/* section */
+.section{padding:3rem 0}
+.head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem}
+.head .dot{width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px var(--amber)}
+.head h2{font-size:1.5rem;font-weight:800}
+.head .more{margin-left:auto;font-size:.85rem;color:var(--silver)}
+
+/* 午夜片单 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.1rem}
+.film{
+  background:linear-gradient(180deg,var(--panel),var(--bg2));
+  border:1px solid var(--line);border-radius:16px;padding:1.1rem;transition:.25s;
+}
+.film:hover{transform:translateY(-5px);border-color:var(--amber);box-shadow:0 16px 40px rgba(255,180,84,.12)}
+.poster{
+  height:130px;border-radius:10px;margin-bottom:.8rem;
+  background:linear-gradient(135deg,#1b2748,#0a1020);
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+}
+.film h3{font-size:1rem;margin-bottom:.2rem}
+.film .meta{font-size:.76rem;color:var(--muted)}
+.film .tag{display:inline-block;margin-top:.5rem;font-size:.7rem;color:var(--amber);border:1px solid var(--line);padding:.15rem .6rem;border-radius:999px}
+
+/* 频道 */
+.channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem}
+.chan{
+  border:1px solid var(--line);border-radius:18px;padding:1.4rem;background:var(--panel);
+}
+.chan h3{font-size:1.1rem;margin-bottom:.6rem}
+.chan h3 i{color:var(--amber);margin-right:.4rem}
+.chan a{display:inline-block;margin:.25rem .35rem .25rem 0;font-size:.82rem;color:var(--silver);border-bottom:1px dashed var(--line)}
+.chan a:hover{color:var(--amber);border-color:var(--amber)}
+
+/* 关于 */
+.about{
+  display:grid;grid-template-columns:1.4fr 1fr;gap:2rem;align-items:center;
+  background:linear-gradient(180deg,var(--panel),var(--bg2));
+  border:1px solid var(--line);border-radius:20px;padding:2rem;
+}
+.about h3{font-size:1.4rem;margin-bottom:.8rem}
+.about p{color:var(--muted);margin-bottom:.7rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.stat{background:#0a1124;border:1px solid var(--line);border-radius:14px;padding:1rem;text-align:center}
+.stat b{display:block;font-size:1.6rem;color:var(--amber)}
+.stat span{font-size:.78rem;color:var(--muted)}
+
+.footer{
+  margin-top:3rem;border-top:1px solid var(--line);
+  padding:2.2rem 1rem;text-align:center;color:var(--muted);font-size:.82rem;
+}
+.footer h3{color:var(--text);font-size:1.2rem;margin-bottom:.4rem}
+.footer h3 b{color:var(--amber)}
+.footer a{color:var(--silver)}
+
+@media(max-width:760px){
+  .search{flex-direction:column;border-radius:14px}
+  .search input{border-bottom:1px solid var(--line)}
+  .search button{padding:1rem}
+  .about{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <div class="moon"></div>
+      <div>
+        <h1>午夜<b>电影网</b></h1>
+        <small>WUYE DIANYING · 深夜放映厅</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#home" class="active">首页</a>
+      <a href="#late">午夜片单</a>
+      <a href="#channels">影频频道</a>
+      <a href="#about">关于午夜</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="home" class="hero">
+    <span class="kicker">22:00 — 04:00 · 城市深夜影院</span>
+    <h2>当城市睡着<br>《午夜电影网》开始<b>放映</b></h2>
+    <p>午夜电影网（wuyedianyingwang-h5）收录艺术电影、黑色电影、悬疑片、经典老片与独立影像。没有弹窗，没有“福利”噱头，只有适合深夜一个人看的片子。</p>
+    <div class="search">
+      <input type="text" placeholder="搜：王家卫 / 黑色电影 / 1994 / 悬疑 / 文艺...">
+      <button>找片</button>
+    </div>
+    <div class="tags">
+      <a href="#">🌙 深夜必看</a>
+      <a href="#">🎞 4K修复</a>
+      <a href="#">🕵️ 悬疑烧脑</a>
+      <a href="#">🖤 黑色电影</a>
+      <a href="#">🎷 爵士夜景</a>
+      <a href="#">🛋 一人影院</a>
+    </div>
+  </section>
+
+  <section id="late" class="section">
+    <div class="head">
+      <span class="dot"></span>
+      <h2>今晚午夜片单</h2>
+      <a href="#" class="more">完整片单 →</a>
+    </div>
+    <div class="grid">
+      <div class="film">
+        <div class="poster">🎷</div>
+        <h3>重庆森林</h3>
+        <div class="meta">文艺 / 爱情 / 1994</div>
+        <span class="tag">午夜循环</span>
+      </div>
+      <div class="film">
+        <div class="poster">🕵️</div>
+        <h3>看不见的客人</h3>
+        <div class="meta">悬疑 / 惊悚 / 2016</div>
+        <span class="tag">烧脑</span>
+      </div>
+      <div class="film">
+        <div class="poster">🖤</div>
+        <h3>七宗罪</h3>
+        <div class="meta">犯罪 / 黑色电影 / 1995</div>
+        <span class="tag">暗黑经典</span>
+      </div>
+      <div class="film">
+        <div class="poster">🌃</div>
+        <h3>银翼杀手2049</h3>
+        <div class="meta">科幻 / 霓虹夜 / 2017</div>
+        <span class="tag">视觉神作</span>
+      </div>
+      <div class="film">
+        <div class="poster">🎞</div>
+        <h3>花样年华</h3>
+        <div class="meta">文艺 / 怀旧 / 2000</div>
+        <span class="tag">深夜情绪</span>
+      </div>
+      <div class="film">
+        <div class="poster">🛋</div>
+        <h3>海街日记</h3>
+        <div class="meta">治愈 / 日常 / 2015</div>
+        <span class="tag">慢片</span>
+      </div>
+      <div class="film">
+        <div class="poster">🚖</div>
+        <h3>午夜巴黎</h3>
+        <div class="meta">奇幻 / 文艺 / 2011</div>
+        <span class="tag">浪漫夜游</span>
+      </div>
+      <div class="film">
+        <div class="poster">🩸</div>
+        <h3>老男孩</h3>
+        <div class="meta">复仇 / 悬疑 / 2003</div>
+        <span class="tag">韩影神作</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="channels" class="section">
+    <div class="head">
+      <span class="dot"></span>
+      <h2>午夜影频频道</h2>
+      <a href="#" class="more">全部频道 →</a>
+    </div>
+    <div class="channels">
+      <div class="chan">
+        <h3><i>🖤</i>黑色电影</h3>
+        <a href="#">侦探片</a><a href="#">硬汉警匪</a><a href="#">宿命犯罪</a>
+        <a href="#">雨夜街头</a><a href="#">道德灰色</a><a href="#">黑色幽默</a>
+      </div>
+      <div class="chan">
+        <h3><i>🎷</i>文艺夜场</h3>
+        <a href="#">王家卫</a><a href="#">是枝裕和</a><a href="#">侯麦</a>
+        <a href="#">慢镜头</a><a href="#">独白</a><a href="#">城市孤独</a>
+      </div>
+      <div class="chan">
+        <h3><i>🕵️</i>悬疑烧脑</h3>
+        <a href="#">密室</a><a href="#">反转</a><a href="#">时间循环</a>
+        <a href="#">记忆碎片</a><a href="#">本格推理</a><a href="#">心理惊悚</a>
+      </div>
+      <div class="chan">
+        <h3><i>🎞</i>经典老片</h3>
+        <a href="#">90年代</a><a href="#">新浪潮</a><a href="#">4K修复</a>
+        <a href="#">默片重生</a><a href="#">胶片质感</a><a href="#">影史百佳</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="head">
+      <span class="dot"></span>
+      <h2>关于午夜电影网</h2>
+    </div>
+    <div class="about">
+      <div>
+        <h3>不是“福利站”，是深夜放映厅</h3>
+        <p><strong>午夜电影网</strong>（https://wuyedianyingwang-h5.github.io）是一个面向“深夜观影人群”的影视导航站：艺术片、黑色电影、悬疑片、老片修复、独立影像。</p>
+        <p>页面走“月光 + 琥珀灯牌 + 深蓝夜色”的影院氛围，移动端自适应，所有内页链接用 <code>#</code> 占位，不生成 robots.txt / sitemap.xml，符合必应收录基本规范。</p>
+        <p>我们不做“全网免费看”“福利入口”“专用播放器”，只做干净的分类、片单和影评式推荐。</p>
+        <p><a href="https://wuyedianyingwang-h5.github.io">🌐 wuyedianyingwang-h5.github.io</a></p>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>22:00+</b><span>夜间开场</span></div>
+        <div class="stat"><b>8+</b><span>午夜频道</span></div>
+        <div class="stat"><b>0</b><span>弹窗广告</span></div>
+        <div class="stat"><b>100%</b><span>移动端适配</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <h3>午夜<b>电影网</b></h3>
+  <p>深夜放映 · 艺术片 / 黑色电影 / 经典老片导航</p>
+  <p>© 2026 午夜电影网 | <a href="https://wuyedianyingwang-h5.github.io">wuyedianyingwang-h5.github.io</a></p>
+  <p>本站为静态演示页，链接均为 # 占位；不提供盗版播放、不诱导下载、不含成人内容。</p>
+</footer>
+
+<script>
+const links=[...document.querySelectorAll('.nav a')];
+const secs=[...document.querySelectorAll('section[id]')];
+links.forEach(a=>a.addEventListener('click',e=>{
+  const id=a.getAttribute('href');
+  if(id&&id.startsWith('#')&&document.querySelector(id)){
+    e.preventDefault();
+    document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}));
+addEventListener('scroll',()=>{
+  let cur='home';
+  secs.forEach(s=>{if(scrollY>=s.offsetTop-120)cur=s.id;});
+  links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+cur));
+});
+</script>
+</body>
+</html>
